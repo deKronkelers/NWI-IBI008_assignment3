@@ -15,6 +15,6 @@ attribute_units = [
 ]
 
 classes = wine_data["y"]
-class_names = wine_data["classNames"]
+class_names = [wine_data["classNames"][i, 0][0] for i in range(2)]
 
 # assignment 3.1.2
