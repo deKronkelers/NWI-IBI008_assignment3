@@ -13,4 +13,7 @@ attribute_units = [
     "g/cm^3", "pH", "g/dm^3", "% vol."
 ]
 
+classes = wine_data["y"]
+class_names = wine_data["classNames"]
+
 # assignment 3.1.2
