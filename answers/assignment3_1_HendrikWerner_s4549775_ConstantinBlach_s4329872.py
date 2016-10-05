@@ -2,6 +2,7 @@
 # author Constantin Blach s4329872
 
 import scipy.io
+from numpy import array
 from sklearn import tree
 
 # assignment 3.1.1
@@ -23,3 +24,7 @@ decision_tree = tree.DecisionTreeClassifier(min_samples_split=100)
 decision_tree = decision_tree.fit(X, classes)
 
 tree.export_graphviz(decision_tree, out_file="tree.dot", class_names=class_names)
+
+# assignment 3.1.3
+test_wine = array([6.9 , 1.09, 0.06, 2.1, 0.0061, 12, 31, 0.99, 3.5, 0.64, 12])
+print("The test wine is probably a {} wine.".format(("red", "white")[decision_tree.predict(test_wine.reshape(1, -1))[0]]))
