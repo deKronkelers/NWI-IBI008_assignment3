@@ -3,8 +3,9 @@
 
 import scipy.io
 import matplotlib.pyplot as plt
-from sklearn.model_selection import train_test_split, cross_val_score
+from sklearn.model_selection import train_test_split, cross_val_score, KFold
 from sklearn import tree
+from numpy import array
 
 # assignment 3.2.1
 wine_data = scipy.io.loadmat("./data/wine.mat")
@@ -26,4 +27,25 @@ f = plt.subplot(111)
 f.plot(depths, errors)
 f.set_xlabel("decision tree max depth")
 f.set_ylabel("classification error")
+plt.show()
+
+# assignment 3.2.2
+kf = KFold(n_splits=10, shuffle=True)
+errors_list = []
+for train_index, test_index in kf.split(wine_data["X"]):
+    errors_list.append(classification_errors(
+        wine_data["X"][train_index],
+        wine_data["y"][train_index],
+        wine_data["X"][test_index],
+        wine_data["y"][test_index],
+        depths
+    ))
+
+errors_list = array(errors_list)
+average_errors = [col.mean() for col in (errors_list[:, i] for i in range(errors_list.shape[1]))]
+
+f = plt.subplot(111)
+f.plot(depths, average_errors)
+f.set_xlabel("decision tree max depth")
+f.set_ylabel("average classification error")
 plt.show()
