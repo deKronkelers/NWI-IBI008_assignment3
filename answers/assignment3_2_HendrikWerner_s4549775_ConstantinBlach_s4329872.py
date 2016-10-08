@@ -12,13 +12,16 @@ X_train, X_test, classes_train, classes_test = train_test_split(
     wine_data["X"], wine_data["y"]
 )
 
-depths = range(2, 21)
-errors = []
-for depth in depths:
-    decision_tree = tree.DecisionTreeClassifier(max_depth=depth)
-    decision_tree.fit(X_train, classes_train)
-    errors.append(1 - decision_tree.score(X_test, classes_test))
+def classification_errors(X_train, y_train, X_test, y_test, depths):
+    errors = []
+    for depth in depths:
+        decision_tree = tree.DecisionTreeClassifier(max_depth=depth)
+        decision_tree.fit(X_train, y_train)
+        errors.append(1 - decision_tree.score(X_test, y_test))
+    return errors
 
+depths = range(2, 21)
+errors = classification_errors(X_train, classes_train, X_test, classes_test, depths)
 f = plt.subplot(111)
 f.plot(depths, errors)
 f.set_xlabel("decision tree max depth")
