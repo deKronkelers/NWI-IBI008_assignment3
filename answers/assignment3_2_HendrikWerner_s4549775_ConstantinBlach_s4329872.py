@@ -1,17 +1,19 @@
 # author: Hendrik Werner s4549775
 # author Constantin Blach s4329872
 
-import scipy.io
 import matplotlib.pyplot as plt
-from sklearn.model_selection import train_test_split, cross_val_score, KFold
-from sklearn import tree
+import scipy.io
 from numpy import array
+from sklearn import tree
+from sklearn.model_selection import train_test_split, cross_val_score, KFold
+
+wine_data = scipy.io.loadmat("./data/wine.mat")
+X = wine_data["X"]
+y = wine_data["y"]
 
 # assignment 3.2.1
-wine_data = scipy.io.loadmat("./data/wine.mat")
-X_train, X_test, classes_train, classes_test = train_test_split(
-    wine_data["X"], wine_data["y"]
-)
+X_train, X_test, y_train, y_test = train_test_split(X, y)
+
 
 def classification_errors(X_train, y_train, X_test, y_test, depths):
     errors = []
@@ -21,8 +23,9 @@ def classification_errors(X_train, y_train, X_test, y_test, depths):
         errors.append(1 - decision_tree.score(X_test, y_test))
     return errors
 
+
 depths = range(2, 21)
-errors = classification_errors(X_train, classes_train, X_test, classes_test, depths)
+errors = classification_errors(X_train, y_train, X_test, y_test, depths)
 f = plt.subplot(111)
 f.plot(depths, errors)
 f.set_xlabel("decision tree max depth")
@@ -32,12 +35,12 @@ plt.show()
 # assignment 3.2.2
 kf = KFold(n_splits=10, shuffle=True)
 errors_list = []
-for train_index, test_index in kf.split(wine_data["X"]):
+for train_index, test_index in kf.split(X):
     errors_list.append(classification_errors(
-        wine_data["X"][train_index],
-        wine_data["y"][train_index],
-        wine_data["X"][test_index],
-        wine_data["y"][test_index],
+        X[train_index],
+        y[train_index],
+        X[test_index],
+        y[test_index],
         depths
     ))
 
