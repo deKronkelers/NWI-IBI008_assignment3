@@ -7,14 +7,8 @@ from numpy import array
 from sklearn import tree
 from sklearn.model_selection import train_test_split, cross_val_score, KFold
 
-wine_data = scipy.io.loadmat("./data/wine.mat")
-X = wine_data["X"]
-y = wine_data["y"]
 
-# assignment 3.2.1
-X_train, X_test, y_train, y_test = train_test_split(X, y)
-
-
+# Calculate classification errors for different tree depths.
 def classification_errors(X_train, y_train, X_test, y_test, depths):
     errors = []
     for depth in depths:
@@ -24,10 +18,7 @@ def classification_errors(X_train, y_train, X_test, y_test, depths):
     return errors
 
 
-depths = range(2, 21)
-errors = classification_errors(X_train, y_train, X_test, y_test, depths)
-
-
+# Plot the tree depth against the classification error.
 def plot_error(
         depths, errors,
         xlabel="decision tree max depth",
@@ -39,6 +30,14 @@ def plot_error(
     f.set_ylabel(ylabel)
     plt.show()
 
+
+# assignment 3.2.1
+wine_data = scipy.io.loadmat("./data/wine.mat")
+X = wine_data["X"]
+y = wine_data["y"]
+X_train, X_test, y_train, y_test = train_test_split(X, y)
+depths = range(2, 21)
+errors = classification_errors(X_train, y_train, X_test, y_test, depths)
 plot_error(depths, errors)
 
 # assignment 3.2.2
