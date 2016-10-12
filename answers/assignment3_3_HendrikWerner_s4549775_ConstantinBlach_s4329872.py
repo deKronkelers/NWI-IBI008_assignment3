@@ -43,8 +43,8 @@ with xlrd.open_workbook(filename="./data/classprobs.xls") as book:
                     sum += 1
         return sum / (m.shape[0] * n.shape[0])
 
-    print(area_under_curve(X[:, 0]))
-    print(area_under_curve(X[:, 1]))
+    print("AUC for classifier 1: {}".format(area_under_curve(X[:, 0])))
+    print("AUC for classifier 1: {}".format(area_under_curve(X[:, 1])))
 
     # assignment 3.3.4
     def accuracy(y_score):
