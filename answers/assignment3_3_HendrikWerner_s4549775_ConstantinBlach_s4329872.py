@@ -5,13 +5,11 @@ import xlrd
 from pylab import *
 from sklearn.metrics import roc_curve, accuracy_score
 
-nr_of_data_points = 108
-
 with xlrd.open_workbook(filename="./data/classprobs.xls") as book:
     # assignment 3.3.1
     sheet = book.sheet_by_index(0)
-    data = empty((nr_of_data_points, 3))
-    for row in range(nr_of_data_points):
+    data = empty((sheet.nrows, 3))
+    for row in range(sheet.nrows):
         data[row] = sheet.row_values(rowx=row, start_colx=0)
 
     y = data[:, 0]
