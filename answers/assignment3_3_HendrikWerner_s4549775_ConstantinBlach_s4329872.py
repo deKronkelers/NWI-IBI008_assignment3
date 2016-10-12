@@ -4,6 +4,7 @@
 import xlrd
 from pylab import *
 from sklearn.metrics import roc_curve, accuracy_score
+from scipy.stats import binom
 
 with xlrd.open_workbook(filename="./data/classprobs.xls") as book:
     # assignment 3.3.1
@@ -70,3 +71,19 @@ with xlrd.open_workbook(filename="./data/classprobs.xls") as book:
 
     print("Confusion matrix for classifier 1: {}".format(calc_confusion_matrix(predictions0)))
     print("Confusion matrix for classifier 2: {}".format(calc_confusion_matrix(predictions1)))
+
+    s = 0 # classifier 1 > classifier 2
+    f = 0 # classifier 2 > classifier 1
+
+    for i in range(y.shape[0]):
+        if predictions0[i] != predictions1[i]:
+            if predictions0[i] == y[i]:
+                s += 1
+            else:
+                f += 1
+
+    print("Classifier 1 correctly predicted the class where classifier 2 failed in {} cases.".format(s))
+    print("Classifier 2 correctly predicted the class where classifier 1 failed in {} cases.".format(f))
+
+    print("p-value for classifier 2: {}".format(binom.cdf(min(s, f) + 1, s + f, .5)))
+    print("p-value for classifier 1: {}".format(binom.sf(max(s, f) - 1, s + f, .5)))
