@@ -45,9 +45,28 @@ with xlrd.open_workbook(filename="./data/classprobs.xls") as book:
     print("AUC for classifier 1: {}".format(area_under_curve(X[:, 1])))
 
     # assignment 3.3.4
-    def accuracy(y_score):
-        predictions = [1 if score >= .5 else 0 for score in y_score]
-        return accuracy_score(y, predictions)
+    predictions0 = [1 if score >= .5 else 0 for score in X[:, 0]]
+    predictions1 = [1 if score >= .5 else 0 for score in X[:, 1]]
+    print("Accuracy of the first classifier: {}".format(accuracy_score(y, predictions0)))
+    print("Accuracy of the second classifier: {}".format(accuracy_score(y, predictions1)))
 
-    print("Accuracy of the first classifier: {}".format(accuracy(X[:, 0])))
-    print("Accuracy of the second classifier: {}".format(accuracy(X[:, 1])))
+    # assignment 3.3.5
+    def calc_confusion_matrix(predictions):
+        confusion_matrix = {"TP": 0, "FN": 0, "FP": 0, "TN": 0}
+        for i in range(y.shape[0]):
+            true_class = y[i]
+            predicted_class = predictions[i]
+            if true_class == 1:
+                if predicted_class == 1:
+                    confusion_matrix["TP"] += 1
+                else:
+                    confusion_matrix["FP"] += 1
+            else:
+                if predicted_class == 0:
+                    confusion_matrix["TN"] += 1
+                else:
+                    confusion_matrix["FN"] += 1
+        return confusion_matrix
+
+    print("Confusion matrix for classifier 1: {}".format(calc_confusion_matrix(predictions0)))
+    print("Confusion matrix for classifier 2: {}".format(calc_confusion_matrix(predictions1)))
