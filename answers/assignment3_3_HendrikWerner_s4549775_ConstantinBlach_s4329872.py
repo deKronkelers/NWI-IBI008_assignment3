@@ -31,3 +31,17 @@ with xlrd.open_workbook(filename="./data/classprobs.xls") as book:
 
     plot_roc_curve(y, X[:, 0], "Classifier 1")
     plot_roc_curve(y, X[:, 1], "Classifier 2")
+
+    # assignment 3.3.3
+    def area_under_curve(y_score):
+        sum = 0
+        m = array(range(y.shape[0]))[y == 1]
+        n = array(range(y.shape[0]))[y == 0]
+        for i in m:
+            for j in n:
+                if y_score[i] > y_score[j]:
+                    sum += 1
+        return sum / (m.shape[0] * n.shape[0])
+
+    print(area_under_curve(X[:, 0]))
+    print(area_under_curve(X[:, 1]))
