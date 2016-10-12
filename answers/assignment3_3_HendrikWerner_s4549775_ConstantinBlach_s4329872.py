@@ -3,7 +3,7 @@
 
 import xlrd
 from pylab import *
-from sklearn.metrics import roc_curve
+from sklearn.metrics import roc_curve, accuracy_score
 
 nr_of_data_points = 108
 
@@ -45,3 +45,11 @@ with xlrd.open_workbook(filename="./data/classprobs.xls") as book:
 
     print(area_under_curve(X[:, 0]))
     print(area_under_curve(X[:, 1]))
+
+    # assignment 3.3.4
+    def accuracy(y_score):
+        predictions = [1 if score >= .5 else 0 for score in y_score]
+        return accuracy_score(y, predictions)
+
+    print("Accuracy of the first classifier: {}".format(accuracy(X[:, 0])))
+    print("Accuracy of the second classifier: {}".format(accuracy(X[:, 1])))
