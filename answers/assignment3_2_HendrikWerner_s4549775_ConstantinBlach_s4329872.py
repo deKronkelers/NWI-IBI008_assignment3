@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import scipy.io
 from numpy import array
 from sklearn import tree
-from sklearn.model_selection import train_test_split, cross_val_score, KFold
+from sklearn.model_selection import train_test_split, KFold
 
 
 # Calculate classification errors for different tree depths.
