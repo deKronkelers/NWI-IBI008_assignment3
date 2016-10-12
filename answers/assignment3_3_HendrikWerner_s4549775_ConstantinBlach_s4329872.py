@@ -3,8 +3,8 @@
 
 import xlrd
 from pylab import *
-from sklearn.metrics import roc_curve, accuracy_score
 from scipy.stats import binom
+from sklearn.metrics import roc_curve, accuracy_score
 
 with xlrd.open_workbook(filename="./data/classprobs.xls") as book:
     # assignment 3.3.1
@@ -31,6 +31,7 @@ with xlrd.open_workbook(filename="./data/classprobs.xls") as book:
     plot_roc_curve(y, X[:, 0], "Classifier 1")
     plot_roc_curve(y, X[:, 1], "Classifier 2")
 
+
     # assignment 3.3.3
     def area_under_curve(y_score):
         sum = 0
@@ -42,6 +43,7 @@ with xlrd.open_workbook(filename="./data/classprobs.xls") as book:
                     sum += 1
         return sum / (m.shape[0] * n.shape[0])
 
+
     print("AUC for classifier 1: {}".format(area_under_curve(X[:, 0])))
     print("AUC for classifier 1: {}".format(area_under_curve(X[:, 1])))
 
@@ -50,6 +52,7 @@ with xlrd.open_workbook(filename="./data/classprobs.xls") as book:
     predictions1 = [1 if score >= .5 else 0 for score in X[:, 1]]
     print("Accuracy of the first classifier: {}".format(accuracy_score(y, predictions0)))
     print("Accuracy of the second classifier: {}".format(accuracy_score(y, predictions1)))
+
 
     # assignment 3.3.5
     def calc_confusion_matrix(predictions):
@@ -69,11 +72,12 @@ with xlrd.open_workbook(filename="./data/classprobs.xls") as book:
                     confusion_matrix["FN"] += 1
         return confusion_matrix
 
+
     print("Confusion matrix for classifier 1: {}".format(calc_confusion_matrix(predictions0)))
     print("Confusion matrix for classifier 2: {}".format(calc_confusion_matrix(predictions1)))
 
-    s = 0 # classifier 1 > classifier 2
-    f = 0 # classifier 2 > classifier 1
+    s = 0  # classifier 1 > classifier 2
+    f = 0  # classifier 2 > classifier 1
 
     for i in range(y.shape[0]):
         if predictions0[i] != predictions1[i]:
