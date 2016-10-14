@@ -23,10 +23,12 @@ def classification_errors(X_train, y_train, X_test, y_test, depths):
 # Plot the tree depth against the classification error.
 def plot_errors(
         depths, errors_list,
+        title="Cross validation",
         xlabel="decision tree max depth",
         ylabel="classification error"
 ):
     f = plt.subplot(111)
+    f.set_title(title)
     for errors in errors_list:
         f.plot(depths, errors)
     f.set_xlabel(xlabel)
@@ -65,4 +67,8 @@ def average_errors(errors_list):
 
 
 average_errors = (average_errors(errors_list_test), average_errors(errors_list_train))
-plot_errors(depths, average_errors, ylabel="average classification error")
+plot_errors(
+    depths, average_errors,
+    title="100-fold Cross validation",
+    ylabel="average classification error"
+)
